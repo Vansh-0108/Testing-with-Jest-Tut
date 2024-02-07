@@ -1,7 +1,8 @@
 export enum PassErrors {
     SHORT = 'Password is too short',
     NO_UPPERCASE = 'Password does not contain UpperCase',
-    NO_LOWERCASE = 'Password does not contain LowerCase'
+    NO_LOWERCASE = 'Password does not contain LowerCase',
+    NO_NUMBER = 'Admin pass does not contain a number'
 }
 
 export interface CheckResult  {
@@ -33,6 +34,21 @@ export class PassCheck {
             valid: reasons.length > 0 ? false : true,
             reasons: reasons
         };
+    }
+
+    public checkAdminPassword(pass: string): CheckResult {
+        const basicChecks = this.checkPassword(pass);
+        this.checkForNumber(pass, basicChecks.reasons);
+        return {
+            valid: basicChecks.reasons.length > 0 ? false : true,
+            reasons: basicChecks.reasons
+        }
+    }
+
+    private checkForNumber(pass: string, reasons: PassErrors[]): void{
+        const hasNumber = /\d/;
+        if(!hasNumber.test(pass))
+            reasons.push(PassErrors.NO_NUMBER)
     }
 
     private checkForLength(pass: string, reasons: PassErrors[]): void {

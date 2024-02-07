@@ -41,6 +41,7 @@ describe('Password Checker Tests Suite', () => {
     })
     */
 
+    //ITERATION-2
     it('should mark the pass with less than 8 chars as invalid', () => {
         const actual = sut.checkPassword('abcdEFG');
         expect(actual.valid).toBe(false);
@@ -78,6 +79,19 @@ describe('Password Checker Tests Suite', () => {
         const actual = sut.checkPassword('abcdEFGH1234');
         expect(actual.valid).toBe(true);
         expect(actual.reasons).toHaveLength(0);
+    })
+
+    // ITERATION-3
+
+    it('should flag the admin pass without number as invalid', () => {
+        const actual = sut.checkAdminPassword('abcdEFGH');
+        expect(actual.valid).toBe(false);
+        expect(actual.reasons).toContain(PassErrors.NO_NUMBER);
+    })
+
+    it('should flag the admin pass with number as valid', () => {
+        const actual = sut.checkAdminPassword('abcdEFGH12');
+        expect(actual.reasons).not.toContain(PassErrors.NO_NUMBER);
     })
 
 })
