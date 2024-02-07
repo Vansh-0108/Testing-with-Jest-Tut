@@ -25,15 +25,28 @@ export class PassCheck {
 
     public checkPassword(pass: string):  CheckResult{
         let reasons: PassErrors[] = [];
-        if(pass.length<8)
-            reasons.push(PassErrors.SHORT)
-        if(pass.toLowerCase() == pass)
-            reasons.push(PassErrors.NO_UPPERCASE)
-        if(pass.toUpperCase() == pass)
-            reasons.push(PassErrors.NO_LOWERCASE)
+        
+        this.checkForLength(pass, reasons);
+        this.checkForLowerCase(pass, reasons);
+        this.checkForUpperCase(pass, reasons);
         return {
             valid: reasons.length > 0 ? false : true,
             reasons: reasons
         };
+    }
+
+    private checkForLength(pass: string, reasons: PassErrors[]): void {
+        if(pass.length<8)
+            reasons.push(PassErrors.SHORT)
+    }
+
+    private checkForUpperCase(pass: string, reasons: PassErrors[]): void {
+        if(pass.toLowerCase() == pass)
+            reasons.push(PassErrors.NO_UPPERCASE)
+    }
+
+    private checkForLowerCase(pass: string, reasons: PassErrors[]): void {
+        if(pass.toUpperCase() == pass)
+            reasons.push(PassErrors.NO_LOWERCASE)
     }
 }
