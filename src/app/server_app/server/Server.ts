@@ -20,7 +20,7 @@ export class Server {
             res.end();
         });
         this.server.listen(8080);
-        console.log('server started')
+        console.log('server started at', Date.now())
     }
 
     private async handleRequest(request: IncomingMessage, response: ServerResponse) {
@@ -54,18 +54,22 @@ export class Server {
     }
 
     public async stopServer() {
-        if (this.server) {
-            console.log('closing server');
-            return new Promise<void>((resolve, reject) => {
-                this.server!.close((err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        console.log('server closed');
-                        resolve();
-                    }
-                });
-            });
+        // if (this.server) {
+        //     console.log('closing server');
+        //     return new Promise<void>((resolve, reject) => {
+        //         this.server!.close((err) => {
+        //             if (err) {
+        //                 reject(err);
+        //             } else {
+        //                 console.log('server closed at', Date.now());
+        //                 resolve();
+        //             }
+        //         });
+        //     });
+        // }
+        if(this.server){
+            this.server.close();
+            console.log('server closed at', Date.now());
         }
     }
 }
